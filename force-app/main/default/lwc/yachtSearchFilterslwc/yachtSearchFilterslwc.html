@@ -1,0 +1,63 @@
+<template>
+    <div class="filters-container">
+        <div class="filters-header">
+            <button class="back-btn" onclick={handleBack}>
+                &#8592; Back
+            </button>
+            <span class="filters-title">Find Your Yacht</span>
+            <span class="filters-subtitle">Search available vessels for your date</span>
+        </div>
+        <div class="filters-row">
+            <div class="filter-group">
+                <label class="filter-label">Yacht Type</label>
+                <div class="select-wrapper">
+                    <select class="filter-select" onchange={handleTypeChange}>
+                        <option value="">All Types</option>
+                        <template for:each={yachtTypes} for:item="type">
+                            <option key={type.Id} value={type.Id}>{type.Name}</option>
+                        </template>
+                    </select>
+                    <span class="select-arrow">&#9662;</span>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label">Date</label>
+                <input
+                    type="date"
+                    class="filter-input"
+                    min={todayString}
+                    value={selectedDate}
+                    onclick={handleDateClick}
+                    onchange={handleDateChange}
+                />
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label">Party Size</label>
+                <input
+                    type="number"
+                    class="filter-input"
+                    min="1"
+                    max="50"
+                    placeholder="e.g. 6"
+                    value={partySize}
+                    onchange={handlePartySizeChange}
+                />
+            </div>
+
+            <div class="filter-group filter-action">
+                <button
+                    class="search-btn"
+                    onclick={handleSearch}
+                    disabled={isSearchDisabled}>
+                    <span class="search-btn-text">Search</span>
+                    <span class="search-btn-icon">&#8594;</span>
+                </button>
+            </div>
+        </div>
+        <template if:true={validationError}>
+            <div class="validation-error">{validationError}</div>
+        </template>
+    </div>
+</template>

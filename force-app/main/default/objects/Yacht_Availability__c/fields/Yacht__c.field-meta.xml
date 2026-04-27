@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Yacht__c</fullName>
+    <label>Yacht</label>
+    <referenceTo>Yacht__c</referenceTo>
+    <relationshipLabel>Yacht Availabilities</relationshipLabel>
+    <relationshipName>Yacht_Availabilities</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

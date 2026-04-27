@@ -1,0 +1,197 @@
+<template>
+    <template if:true={isVisible}>
+        <!-- Desktop panel -->
+        <div class="detail-panel desktop-panel">
+            <template lwc:if={yacht}>
+                <div class="panel-inner">
+                    <button class="close-btn" onclick={handleClose}
+                        aria-label="Close detail panel">&#10005;</button>
+                    <div class="panel-image-wrapper">
+                        <img src={yacht.imageUrl} alt={yacht.name}
+                            class="panel-image" onerror={handleImageError}/>
+                        <div class="panel-image-overlay"></div>
+                        <div class={pillClass}>
+                            <span class="pill-dot"></span>
+                            {availabilityLabel}
+                        </div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="panel-type">{yacht.yachtTypeName}</div>
+                        <h2 class="panel-name">{yacht.name}</h2>
+                        <p class="panel-headline">{yacht.headline}</p>
+                        <div class="panel-divider"></div>
+                        <div class="panel-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Max Capacity</span>
+                                <span class="spec-value">{yacht.capacity} guests</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Min Party Size</span>
+                                <span class="spec-value">{yacht.minPartySize} guests</span>
+                            </div>
+                            <template if:true={yacht.price}>
+                                <div class="spec-item spec-item--price">
+                                    <span class="spec-label">Price for Selected Date</span>
+                                    <span class="spec-value spec-value--price">
+                                        AED {formattedPrice}
+                                    </span>
+                                </div>
+                            </template>
+                        </div>
+                        <template if:true={yacht.description}>
+                            <p class="panel-description">{yacht.description}</p>
+                        </template>
+
+                        <!-- Guest Details Form -->
+                        <template if:false={showConfirmation}>
+                            <template if:false={isReserved}>
+                                <div class="guest-form">
+                                    <div class="guest-form-title">Your Details</div>
+                                    <div class="form-group">
+                                        <label class="form-label">Full Name</label>
+                                        <input
+                                            type="text"
+                                            class="form-input"
+                                            placeholder="e.g. John Smith"
+                                            value={guestName}
+                                            onchange={handleNameChange}
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Email Address</label>
+                                        <input
+                                            type="email"
+                                            class="form-input"
+                                            placeholder="e.g. john@example.com"
+                                            value={guestEmail}
+                                            onchange={handleEmailChange}
+                                        />
+                                    </div>
+                                    <template if:true={formError}>
+                                        <div class="form-error">{formError}</div>
+                                    </template>
+                                </div>
+                            </template>
+                        </template>
+
+                        <template if:true={showConfirmation}>
+                            <div class="confirmation-box">
+                                <div class="confirmation-icon">&#10003;</div>
+                                <div class="confirmation-title">Reservation Confirmed</div>
+                                <div class="confirmation-ref">
+                                    Ref: {confirmationNumber}
+                                </div>
+                                <div class="confirmation-email">
+                                    Confirmation sent to {guestEmail}
+                                </div>
+                            </div>
+                        </template>
+
+                        <template if:true={reservationError}>
+                            <div class="reservation-error">{reservationError}</div>
+                        </template>
+
+                        <button
+                            class="reserve-btn"
+                            onclick={handleReserve}
+                            disabled={isReserveDisabled}
+                            aria-disabled={isReserveDisabled}>
+                            <template if:false={isReserving}>
+                                <span>{reserveBtnLabel}</span>
+                            </template>
+                            <template if:true={isReserving}>
+                                <span>Processing...</span>
+                            </template>
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- Mobile modal -->
+        <div class="mobile-modal-backdrop" onclick={handleClose}>
+            <div class="mobile-modal" onclick={stopPropagation}>
+                <template lwc:if={yacht}>
+                    <button class="close-btn" onclick={handleClose}>&#10005;</button>
+                    <img src={yacht.imageUrl} alt={yacht.name}
+                        class="modal-image" onerror={handleImageError}/>
+                    <div class="modal-content">
+                        <div class="panel-type">{yacht.yachtTypeName}</div>
+                        <h2 class="panel-name">{yacht.name}</h2>
+                        <div class="panel-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Capacity</span>
+                                <span class="spec-value">{yacht.capacity} guests</span>
+                            </div>
+                            <template if:true={yacht.price}>
+                                <div class="spec-item">
+                                    <span class="spec-label">Price</span>
+                                    <span class="spec-value spec-value--price">
+                                        AED {formattedPrice}
+                                    </span>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Guest Details Form Mobile -->
+                        <template if:false={showConfirmation}>
+                            <template if:false={isReserved}>
+                                <div class="guest-form">
+                                    <div class="guest-form-title">Your Details</div>
+                                    <div class="form-group">
+                                        <label class="form-label">Full Name</label>
+                                        <input
+                                            type="text"
+                                            class="form-input"
+                                            placeholder="e.g. John Smith"
+                                            value={guestName}
+                                            onchange={handleNameChange}
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Email Address</label>
+                                        <input
+                                            type="email"
+                                            class="form-input"
+                                            placeholder="e.g. john@example.com"
+                                            value={guestEmail}
+                                            onchange={handleEmailChange}
+                                        />
+                                    </div>
+                                    <template if:true={formError}>
+                                        <div class="form-error">{formError}</div>
+                                    </template>
+                                </div>
+                            </template>
+                        </template>
+
+                        <template if:true={showConfirmation}>
+                            <div class="confirmation-box">
+                                <div class="confirmation-icon">&#10003;</div>
+                                <div class="confirmation-title">Reservation Confirmed</div>
+                                <div class="confirmation-ref">Ref: {confirmationNumber}</div>
+                                <div class="confirmation-email">
+                                    Confirmation sent to {guestEmail}
+                                </div>
+                            </div>
+                        </template>
+
+                        <template if:true={reservationError}>
+                            <div class="reservation-error">{reservationError}</div>
+                        </template>
+
+                        <button class="reserve-btn" onclick={handleReserve}
+                            disabled={isReserveDisabled}>
+                            <template if:false={isReserving}>
+                                <span>{reserveBtnLabel}</span>
+                            </template>
+                            <template if:true={isReserving}>
+                                <span>Processing...</span>
+                            </template>
+                        </button>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </template>
+</template>

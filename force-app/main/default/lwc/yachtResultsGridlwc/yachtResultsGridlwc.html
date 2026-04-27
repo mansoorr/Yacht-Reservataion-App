@@ -1,0 +1,55 @@
+<template>
+    <div class="grid-container">
+
+        <template if:true={isLoading}>
+            <div class="loading-state">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Finding available yachts...</p>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="error-state">
+                <p class="error-text">{errorMessage}</p>
+                <button class="retry-btn" onclick={handleRetry}>Try Again</button>
+            </div>
+        </template>
+
+        <template if:true={hasResults}>
+            <div class="results-header">
+                <span class="results-count">{totalCount} yachts found</span>
+            </div>
+            <div class="yacht-grid">
+                <template for:each={yachts} for:item="yacht">
+                    <div key={yacht.id} class="grid-item">
+                        <c-yacht-cardlwc
+                            yacht={yacht}
+                            onyachtselect={handleYachtSelect}>
+                        </c-yacht-cardlwc>
+                    </div>
+                </template>
+            </div>
+
+            <template if:true={hasMore}>
+                <div class="scroll-sentinel" lwc:ref="sentinel"></div>
+                <template if:true={isLoadingMore}>
+                    <div class="loading-more">
+                        <div class="loading-spinner loading-spinner--small"></div>
+                        <span>Loading more yachts...</span>
+                    </div>
+                </template>
+            </template>
+        </template>
+
+        <template if:true={isEmpty}>
+            <div class="empty-state">
+                <div class="empty-icon">&#9875;</div>
+                <p class="empty-title">No yachts found</p>
+                <p class="empty-subtitle">
+                    Try adjusting your search filters
+                </p>
+            </div>
+        </template>
+
+    </div>
+</template>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <isExposed>true</isExposed>
+    <lightningMessageFields>
+        <description>Selected yacht type ID filter</description>
+        <fieldName>yachtTypeId</fieldName>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <description>Selected search date string</description>
+        <fieldName>searchDate</fieldName>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <description>Entered party size</description>
+        <fieldName>partySize</fieldName>
+    </lightningMessageFields>
+    <masterLabel>yachtSearchChannel</masterLabel>
+</LightningMessageChannel>

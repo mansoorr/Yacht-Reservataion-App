@@ -1,0 +1,41 @@
+<template>
+    <div class={cardClass} onclick={handleCardClick} role="button" tabindex="0"
+         onkeypress={handleKeyPress} aria-label={ariaLabel} aria-disabled={isUnavailable}>
+        <div class="card-image-wrapper">
+            <img
+                src={yacht.imageUrl}
+                alt={yacht.name}
+                class="card-image"
+                onerror={handleImageError}
+            />
+            <div class="card-image-overlay"></div>
+            <template if:true={yacht.price}>
+                <div class="price-badge">
+                    <span class="price-currency">AED</span>
+                    <span class="price-amount">{formattedPrice}</span>
+                </div>
+            </template>
+            <div class={availabilityPillClass}>
+                <span class="pill-dot"></span>
+                <span>{availabilityLabel}</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="card-type">{yacht.yachtTypeName}</div>
+            <h3 class="card-name">{yacht.name}</h3>
+            <p class="card-headline">{yacht.headline}</p>
+            <div class="card-meta">
+                <div class="meta-item">
+                    <span class="meta-icon">&#9876;</span>
+                    <span class="meta-label">Up to {yacht.capacity} guests</span>
+                </div>
+                <template if:true={yacht.minPartySize}>
+                    <div class="meta-item">
+                        <span class="meta-icon">&#9654;</span>
+                        <span class="meta-label">Min {yacht.minPartySize}</span>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

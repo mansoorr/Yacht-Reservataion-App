@@ -1,0 +1,67 @@
+<template>
+    <div class="app-container">
+
+        <!-- HERO STATE -->
+        <template if:false={showSearch}>
+            <div class="hero-section" style={heroStyle}>
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <p class="hero-eyebrow">Dubai's Premier Charter Fleet</p>
+                    <h1 class="hero-title">Find Your Perfect Yacht</h1>
+                    <p class="hero-subtitle">
+                        Discover luxury vessels for every occasion —
+                        from intimate sunset cruises to grand celebrations
+                    </p>
+                    <button class="hero-cta" onclick={handleShowSearch}>
+                        <span>Search Available Yachts</span>
+                        <span class="hero-cta-icon">&#8594;</span>
+                    </button>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">30+</span>
+                            <span class="stat-label">Vessels</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat">
+                            <span class="stat-number">5</span>
+                            <span class="stat-label">Yacht Types</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Availability</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- SEARCH STATE -->
+        <template if:true={showSearch}>
+            <div class="search-section">
+                <c-yacht-search-filterslwc
+                    onback={handleHeroBack}>
+                </c-yacht-search-filterslwc>
+                <div class="app-body">
+                    <div class={gridClass}>
+                        <c-yacht-results-gridlwc
+                            onyachtselect={handleYachtSelect}>
+                        </c-yacht-results-gridlwc>
+                    </div>
+                    <template if:true={selectedYacht}>
+                        <div class="detail-column">
+                            <c-yacht-detail-panellwc
+                                yacht={selectedYacht}
+                                search-date={currentSearchDate}
+                                party-size={currentPartySize}
+                                onpanelclose={handlePanelClose}
+                                onreservationsuccess={handleReservationSuccess}>
+                            </c-yacht-detail-panellwc>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+
+    </div>
+</template>
